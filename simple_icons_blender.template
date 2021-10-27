@@ -1,0 +1,82 @@
+import os
+import tempfile
+
+import bpy
+
+from io_curve_svg.import_svg import load as import_svg_file
+
+bl_info = {
+	'name': 'Simple Icons',
+	'description': 'Blender Simple Icons addon',
+	'author': 'mondeja',
+	'license': 'BSD-3-Clause',
+	'category': 'Add Mesh',
+	'version': (5, 19, 0),
+	'blender': (2, 83, 0),
+	'support': 'COMMUNITY',
+}
+
+class BlenderVersionError(Exception):
+	pass
+
+if bl_info['blender'] > bpy.app.version:
+	raise BlenderVersionError(f"This addon requires Blender >= {bl_info['blender']}")
+
+# -----------------------------------------------
+
+class AddSi:
+    def execute(self, context):
+        simple_icons_blender_tempdir = os.path.join(
+            tempfile.gettempdir(), "simple-icons-blender",
+        )
+        if not os.path.isdir(simple_icons_blender_tempdir):
+            os.mkdir(simple_icons_blender_tempdir)
+
+        temp_filepath = os.path.join(
+            simple_icons_blender_tempdir, self.bl_label.replace(os.sep, "-"),
+        )
+        if not os.path.isfile(temp_filepath):
+            with open(temp_filepath, "w") as f:
+                f.write(self.si_svg)
+
+        import_svg_file(self, context, temp_filepath)
+        return {'FINISHED'}
+
+%(simple_icons_classes)s
+
+si_classes = [
+    globals()[object_name] for object_name in globals().keys()
+    if object_name.startswith("AddSi_")
+]
+
+# ------------------------------------------------
+
+class VIEW3D_MT_simple_icons_add(bpy.types.Menu):
+    # Define the "Simple Icons" menu
+    bl_idname = "VIEW3D_MT_simple_icons_add"
+    bl_label = "Simple Icons"
+
+    def draw(self, context):
+        for cls in si_classes:
+            self.layout.operator(cls.bl_idname, text=cls.bl_label)
+
+def menu_func(self, context):
+    self.layout.separator()
+    self.layout.menu("VIEW3D_MT_simple_icons_add",
+                     text="Simple Icons", icon="DECORATE")
+
+
+def register():
+    for cls in si_classes:
+        bpy.utils.register_class(cls)
+    bpy.utils.register_class(VIEW3D_MT_simple_icons_add)
+    bpy.types.VIEW3D_MT_curve_add.append(menu_func)
+
+def unregister():
+    bpy.types.VIEW3D_MT_curve_add.remove(menu_func)
+    bpy.utils.unregister_class(VIEW3D_MT_simple_icons_add)
+    for cls in si_classes:
+        bpy.utils.unregister_class(cls);
+
+if __name__ == "__main__":
+    register()

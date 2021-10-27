@@ -1,0 +1,6 @@
+venv/
+node_modules/
+*.backup
+*.zip
+.pytest_cache/
+htmlcov/
