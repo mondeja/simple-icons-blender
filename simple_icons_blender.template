@@ -10,7 +10,7 @@ bl_info = {
 	'description': 'Blender Simple Icons addon',
 	'author': 'mondeja',
 	'license': 'BSD-3-Clause',
-	'category': 'Add Mesh',
+	'category': 'Add Curve',
 	'version': (5, 19, 0),
 	'blender': (2, 83, 0),
 	'support': 'COMMUNITY',
@@ -63,7 +63,7 @@ class VIEW3D_MT_simple_icons_add(bpy.types.Menu):
 def menu_func(self, context):
     self.layout.separator()
     self.layout.menu("VIEW3D_MT_simple_icons_add",
-                     text="Simple Icons", icon="DECORATE")
+                     text="Simple Icons", icon="CURVE_DATA")
 
 
 def register():

@@ -10,7 +10,7 @@ from thelpers import simple_icons_slugs, simple_icons_titles
     ('slug', 'title'),
     zip(simple_icons_slugs(), simple_icons_titles())
 )
-def test_add_icon(slug, title):
+def test_add_icon_operators(slug, title):
     import bpy
 
     # add icon
@@ -39,3 +39,12 @@ def test_add_icon(slug, title):
     for obj in last_collection.objects:
         bpy.data.objects.remove(obj, do_unlink=True)
     bpy.data.collections.remove(last_collection)
+
+    # check that was removed
+    last_collection = bpy.context.scene.collection.children[-1]
+    assert last_collection.name != title.replace(os.sep, "-")
+    last_object = last_collection.all_objects[-1]
+
+    # check that icon is properly added
+    assert last_object.type != "CURVE"
+    assert last_object.type == "CAMERA"
