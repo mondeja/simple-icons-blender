@@ -70,7 +70,7 @@ jobs:
         run: npm run build
       - name: Test with pytest
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
-        run: pytest -svv --blender-executable "${{ steps.install-dependencies.outputs.blender-executable }}" tests
+        run: pytest -s --blender-executable "${{ steps.install-dependencies.outputs.blender-executable }}" tests
       - name: Commit
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         run: |
@@ -85,7 +85,7 @@ jobs:
           git merge develop --no-ff -m "Release ${{ steps.get-releases.outputs.si }}"
           # Set up remote using a Personal Access Token
           git remote remove origin
-          git remote add origin https://${{secrets.RELEASE_TOKEN}}@github.com/mondeja/simple-icons-drawio.git
+          git remote add origin https://${{secrets.RELEASE_TOKEN}}@github.com/mondeja/simple-icons-blender.git
           # Push develop first, to prevent conflicts with parallel activity
           git push origin develop
           # Push master only after develop was safely pushed
