@@ -9,7 +9,7 @@ from io_curve_svg.import_svg import load as import_svg_file
 
 bl_info = {
 	'name': 'Simple Icons',
-	'description': 'Blender Simple Icons addon',
+	'description': 'Simple Icons Blender addon',
 	'author': 'mondeja',
 	'license': 'BSD-3-Clause',
 	'category': 'Add Curve',
