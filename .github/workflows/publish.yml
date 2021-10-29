@@ -31,46 +31,72 @@ jobs:
           simple_icons_version="$(curl --retry 5 -s https://api.github.com/repos/simple-icons/simple-icons/releases/latest | jq -r .tag_name)"
           echo "::set-output name=si::$simple_icons_version"
           echo "::set-output name=lib::$(cat package.json | grep '"version":' | cut -d'"' -f4)"
-      - name: Check should release
-        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
-        run: exit 1
       - name: Bump version
-        if: failure()
+        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         run: |
           sed -i 's/"version": "${{ steps.get-releases.outputs.lib }}",/"version": "${{ steps.get-releases.outputs.si }}",/' package.json
           sed -i 's/"simple-icons": "${{ steps.get-releases.outputs.lib }}"/"simple-icons": "${{ steps.get-releases.outputs.si }}"/' package.json
           sed -i 's/${{ steps.get-releases.outputs.lib }}/${{ steps.get-releases.outputs.si }}/g' README.md
+      - name: Blender cache setup
+        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
+        uses: actions/cache@v2.1.5
+        id: cache-blender
+        with:
+          path: |
+            blender-*
+            _blender-executable-path.txt
+          key: ${{ runner.os }}-2.93.5
+      - name: Download Blender 2.93.5
+        if: (steps.cache-blender.outputs.cache-hit != 'true' && steps.get-releases.outputs.lib != steps.get-releases.outputs.si)
+        id: download-blender
+        run: |
+          python -m pip install --upgrade blender-downloader
+          echo "$(blender-downloader 2.93.5 --extract --remove-compressed \
+          --quiet --print-blender-executable)" > _blender-executable-path.txt
       - name: Install dependencies
+        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
+        id: install-dependencies
         run: |
           npm install
+          python -m pip install --upgrade pip
           python -m pip install -r test-requirements.txt
+          blender_executable="$(< _blender-executable-path.txt tr -d '\n')"
+          python_blender_executable="$(pytest-blender --blender-executable $blender_executable)"
+          $python_blender_executable -m ensurepip
+          $python_blender_executable -m pip install pytest
+          echo "::set-output name=blender-executable::$blender_executable"
       - name: Build library
+        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         run: npm run build
-      - name: Test library
-        run: npm run test
+      - name: Test with pytest
+        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
+        run: pytest -s --blender-executable "${{ steps.install-dependencies.outputs.blender-executable }}" tests
       - name: Commit
+        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         run: |
           # Set up git credential
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           # Create a version bump commit
-          git add package.json simple-icons.xml
+          git add package.json simple_icons_blender.py README.md
           git commit -m "Version bump"
           # Merge develop into master
           git checkout master
           git merge develop --no-ff -m "Release ${{ steps.get-releases.outputs.si }}"
           # Set up remote using a Personal Access Token
           git remote remove origin
-          git remote add origin https://${{secrets.RELEASE_TOKEN}}@github.com/mondeja/simple-icons-drawio.git
+          git remote add origin https://${{secrets.RELEASE_TOKEN}}@github.com/mondeja/simple-icons-blender.git
           # Push develop first, to prevent conflicts with parallel activity
           git push origin develop
           # Push master only after develop was safely pushed
           git push origin master
       - name: Create and push git tag
+        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         uses: actions-ecosystem/action-push-tag@v1
         with:
           tag: ${{ steps.get-releases.outputs.si }}
       - name: Create GitHub release
+        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         id: create-release
         uses: actions/create-release@v1
         env:
@@ -82,6 +108,7 @@ jobs:
             See https://github.com/simple-icons/simple-icons/releases/tag/${{ steps.get-releases.outputs.si }}
       - uses: shogo82148/actions-upload-release-asset@v1.3.0
         name: Upload release asset
+        if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: simple_icons_blender.xml

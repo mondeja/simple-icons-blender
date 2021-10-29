@@ -1,15 +1,14 @@
 {
   "name": "simple-icons-blender",
-  "version": "5.19.0",
+  "version": "5.20.0",
   "description": "Blender Simple Icons addon",
   "scripts": {
-    "build": "node build.js",
-    "test": "pytest -svv"
+    "build": "node build.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "simple-icons": "5.19.0"
+    "simple-icons": "5.20.0"
   }
 }
