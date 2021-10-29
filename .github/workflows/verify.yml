@@ -19,11 +19,8 @@ jobs:
           - macos-latest
         blender-version:
           - '2.93.5'
-          - '2.93.4'
-          - '2.93.3'
-          - '2.93.2'
-          - '2.93.1'
           - '2.93.0'
+          - '2.92.0'
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python v3.10
@@ -56,5 +53,5 @@ jobs:
           pytest_version="$(< test-requirements.txt grep pytest== | head -n 1 | cut -d'=' -f3)"
           $python_blender_executable -m pip install pytest==$pytest_version
           echo "::set-output name=blender-executable::$blender_executable"
-      - name: Test with Blender Python executable (no cache)
+      - name: Run tests
         run: pytest -s --blender-executable "${{ steps.install-dependencies.outputs.blender-executable }}" tests
