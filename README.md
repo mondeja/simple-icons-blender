@@ -32,21 +32,21 @@ top-left checkbox:
 
 ## Usage
 
-You can load icons from the `3D Viewport` in object mode clicking on `Add` and
-going to `Curve` -> `Simple Icons`:
+You can load icons from the `3D Viewport` in object mode clicking on `Add` ->
+`Curve` -> `Simple Icons`:
 
 <p align="center">
   <img src="images/selector-usage.png" "Simple Icons in drawio">
 </p>
 
-All icons are operators, so you can directly load one using the `Menu Search`
+All icons are operators, so you can directly load one through the `Menu Search`
 (`Edit` -> `Menu Search`):
 
 <p align="center">
   <img src="images/menu-search-usage.png" "Simple Icons in drawio">
 </p>
 
-Keep in mind that icons are small, so probably you'll need to zoom in after
+Keep in mind that icons are small, so you'll probably need to zoom in after
 loading to see them.
 
 [Simple Icons]: https://simpleicons.org
