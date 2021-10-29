@@ -11,8 +11,8 @@ bl_info = {
 	'author': 'mondeja',
 	'license': 'BSD-3-Clause',
 	'category': 'Add Curve',
-	'version': (5, 19, 0),
-	'blender': (2, 83, 0),
+	'version': (5, 20, 0),
+	'blender': (2, 93, 0),
 	'support': 'COMMUNITY',
 }
 

@@ -7,7 +7,7 @@
 Download the addon using [the next link](https://github.com/mondeja/simple-icons-blender/releases/download/5.20.0/simple_icons_blender.py):
 
 ```
-https://github.com/mondeja/simple-icons-drawio/releases/download/5.20.0/simple-icons.xml
+https://github.com/mondeja/simple-icons-blender/releases/download/5.20.0/simple_icons_blender.py
 ```
 
 If you want to install another version of [Simple Icons], change the version

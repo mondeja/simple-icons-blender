@@ -34,9 +34,19 @@ jobs:
       - name: Bump version
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         run: |
+          # Update versions in package.json
           sed -i 's/"version": "${{ steps.get-releases.outputs.lib }}",/"version": "${{ steps.get-releases.outputs.si }}",/' package.json
           sed -i 's/"simple-icons": "${{ steps.get-releases.outputs.lib }}"/"simple-icons": "${{ steps.get-releases.outputs.si }}"/' package.json
+          # Update version in README
           sed -i 's/${{ steps.get-releases.outputs.lib }}/${{ steps.get-releases.outputs.si }}/g' README.md
+          # Update version in addon metadata
+          v_major="$(echo ${{ steps.get-releases.outputs.lib }} | cut -d'.' -f1)"
+          v_minor="$(echo ${{ steps.get-releases.outputs.lib }} | cut -d'.' -f2)"
+          v_patch="$(echo ${{ steps.get-releases.outputs.lib }} | cut -d'.' -f3)"
+          up_v_major="$(echo ${{ steps.get-releases.outputs.si }} | cut -d'.' -f1)"
+          up_v_minor="$(echo ${{ steps.get-releases.outputs.si }} | cut -d'.' -f2)"
+          up_v_patch="$(echo ${{ steps.get-releases.outputs.si }} | cut -d'.' -f3)"
+          sed -i "s/'version': ($v_major, $v_minor, $v_patch),/'version': ($up_v_major, $up_v_minor, $up_v_patch),/" simple_icons_blender.template
       - name: Blender cache setup
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         uses: actions/cache@v2.1.5
@@ -82,7 +92,7 @@ jobs:
           git commit -m "Version bump"
           # Merge develop into master
           git checkout master
-          git merge develop --no-ff -m "Release ${{ steps.get-releases.outputs.si }}"
+          git merge develop -m "Release ${{ steps.get-releases.outputs.si }}"
           # Set up remote using a Personal Access Token
           git remote remove origin
           git remote add origin https://${{secrets.RELEASE_TOKEN}}@github.com/mondeja/simple-icons-blender.git
