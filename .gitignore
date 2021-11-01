@@ -10,3 +10,4 @@ htmlcov/
 failed-slugs.txt
 scripts/showcase/frames/
 scripts/showcase/inkscape-pngs/
+build-failed-slugs-list.js

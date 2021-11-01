@@ -47,21 +47,72 @@ def remove_all_objects_from_collection(collection):
 
 def build_layout(layout, add_titles, inkscape_comparison, loop):
     response = {"name": layout}
-    if layout in ['800x100', 'horizontal']:
+    if layout == "horizontal":
+        # handle all layout possibilities
+        if inkscape_comparison:
+            if loop:
+                response.update({
+                    "camera_y_location": -0.0025 if add_titles else -0.0013,
+                    "camera_lens": 184 if add_titles else 213,
+                    "camera_keyframe_start_padding": (
+                        0.04918 if add_titles else 0.042
+                    ),
+                    "camera_keyframe_end_padding": (
+                        -0.05305 if add_titles else -0.0255
+                    ),
+                })
+            else:
+                response.update({
+                    "camera_y_location": -0.0025 if add_titles else -0.0013,
+                    "camera_lens": 184 if add_titles else 213,
+                    "camera_keyframe_start_padding": (
+                        0.04918 if add_titles else 0.032
+                    ),
+                    "camera_keyframe_end_padding": (
+                        -0.05 if add_titles else None
+                    ),
+                })
+        else:
+            if loop:
+                response.update({
+                    "camera_y_location": (
+                        0.002 if add_titles else 0.0036
+                    ),
+                    "camera_lens": 184 if add_titles else 280,
+                    "camera_keyframe_start_padding": (
+                        0.04918 if add_titles else 0.032
+                    ),
+                    "camera_keyframe_end_padding": (
+                        -0.0529 if add_titles else -0.036
+                    ),
+                })
+            else:
+                response.update({
+                    "camera_y_location": (
+                        0.002 if add_titles else 0.0036
+                    ),
+                    "camera_lens": 184 if add_titles else 280,
+                    "camera_keyframe_start_padding": (
+                        0.04918 if add_titles else 0.032
+                    ),
+                    "camera_keyframe_end_padding": (
+                        -0.0493 if add_titles else -0.03393
+                    ),
+                })
         response.update({
             "camera_z_location": 0.51,
-            "camera_y_location": 0.0036 if not add_titles else (
-                0.002 if not inkscape_comparison else -0.0025
-            ),
-            "camera_keyframe_start_padding": \
-                0.032 if not add_titles else 0.04918,
-            "camera_keyframe_end_padding": \
-                -0.0363 if not add_titles else -0.0188,
-            "camera_lens": 280 if not add_titles else 184,
             "resolution": (800, 100 if not inkscape_comparison else 180),
             "n_icons_shown": 8 if not add_titles else 12,
         })
-    elif layout in ['640x480', 'zoomed']:
+    elif layout == "landscape":
+        if add_titles:
+            raise NotImplementedError(
+                "'landscape' layout does not support titles"
+            )
+        if inkscape_comparison:
+            raise NotImplementedError(
+                "'landscape' layout does not support Inkscape comparison"
+            )
         response.update({
             "camera_z_location": 0.11,
             "camera_y_location": 0.0036,
@@ -89,6 +140,8 @@ class SimpleIconsShowcase:
         icons='0-inf',
         setup_scene=True,
         render=False,
+        render_gif=False,
+        render_mp4=False,
         render_dir=DEFAULT_RENDER_DIR,
         logger=sys.stdout,
         debug=True,
@@ -111,9 +164,14 @@ class SimpleIconsShowcase:
         )
 
         self.setup_scene = setup_scene
-        self.render = render
+        self.render_gif = render or render_gif
+        self.render_mp4 = render or render_mp4
         self.render_dir = render_dir
         self.frames_dir = os.path.join(self.render_dir, "frames")
+        self.inkscape_pngs_dir = os.path.join(
+            self.render_dir,
+            "inkscape-pngs",
+        )
 
         self.slugs_titles_svgs = self.filter_slugs(
             list(zip(
@@ -154,11 +212,14 @@ class SimpleIconsShowcase:
             self.add_camera_keyframes()
             self.configure_scene()
 
-        if self.render:
+        if self.render_gif or self.render_mp4:
             self.check_render_dependencies()
             self.render_frame_images()
-            self.ffmpeg_render("gif")
-            self.ffmpeg_render("mp4")
+
+            if self.render_gif:
+                self.ffmpeg_render("gif")
+            if self.render_mp4:
+                self.ffmpeg_render("mp4")
 
     def filter_slugs(self, slugs_titles_svgs, icons):
         # parse icons selector
@@ -233,8 +294,9 @@ class SimpleIconsShowcase:
 
         # repeat starting icons pattern at the end to render a loop
         if self.loop:
+            n_slugs = len(slugs_titles_svgs)
             for i in range(self.layout["n_icons_shown"]):
-                slugs_titles_svgs.append(slugs_titles_svgs[i])
+                slugs_titles_svgs.append(slugs_titles_svgs[i % n_slugs])
 
         return slugs_titles_svgs
 
@@ -258,7 +320,6 @@ class SimpleIconsShowcase:
             f" '{bpy.context.scene.collection.name}'\n",
         )
         remove_all_objects_from_collection(bpy.context.scene.collection)
-
 
     def add_icons(self):
         icons_objects = []
@@ -302,14 +363,9 @@ class SimpleIconsShowcase:
             self.logger.write(f"Added icon title '{title}'\n")
 
     def add_inkscape_pngs(self, icons_objects):
-        inkscape_pngs_dir = os.path.join(
-            self.render_dir,
-            "inkscape-pngs",
-        )
-
         for i, (slug, _, _) in enumerate(self.slugs_titles_svgs):
             self.logger.write(f"Adding inkscape image for '{slug}'...\n")
-            filepath = os.path.join(inkscape_pngs_dir, f'{slug}.png')
+            filepath = os.path.join(self.inkscape_pngs_dir, f'{slug}.png')
 
             ink_material = bpy.data.materials.new(name=f"{slug}__inkmat")
             ink_material.preview_render_type = "FLAT"
@@ -325,8 +381,8 @@ class SimpleIconsShowcase:
             # create plane
             bpy.ops.mesh.primitive_plane_add()
             plane_object = bpy.context.view_layer.objects.active
-            plane_object.scale = (0.0034, 0.0034, 0.0034)
-            plane_object.location[1] = -0.0088
+            plane_object.scale = (0.0035, 0.0035, 0.0035)
+            plane_object.location[1] = -0.0088 if self.add_titles else -0.006
 
             # align in X with SVG icon
             plane_object.select_set(True)
@@ -444,38 +500,37 @@ class SimpleIconsShowcase:
 
     def inkscape_render_icons_pngs(self):
         # render pngs versions of icons using inkscape
-        inkscape_pngs_dir = os.path.join(
-            self.render_dir,
-            "inkscape-pngs",
-        )
-        if not os.path.isdir(inkscape_pngs_dir):
-            os.mkdir(inkscape_pngs_dir)
+        if not os.path.isdir(self.inkscape_pngs_dir):
+            os.mkdir(self.inkscape_pngs_dir)
 
         for slug, _, svg in self.slugs_titles_svgs:
-            png_icon_filepath = os.path.join(inkscape_pngs_dir, f"{slug}.png")
-            if not os.path.isfile(png_icon_filepath):
-                tmp_filepath = os.path.join(
-                    tempfile.gettempdir(), f"{slug}.svg"
-                )
-                with open(tmp_filepath,  "w") as f:
-                    f.write(svg)
-                self.logger.write(
-                    f"Rendering '{slug}' icon with Inkscape...\n"
-                )
+            png_icon_filepath = os.path.join(
+                self.inkscape_pngs_dir,
+                f"{slug}.png"
+            )
+            if os.path.isfile(png_icon_filepath):
+                continue
 
-                subprocess.run(
-                    [
-                        "inkscape",
-                        "-w",
-                        "512",
-                        "-h",
-                        "512",
-                        tmp_filepath,
-                        "-o",
-                        png_icon_filepath,
-                    ],
-                    stdout=subprocess.DEVNULL,
-                )
+            tmp_filepath = os.path.join(
+                tempfile.gettempdir(), f"{slug}.svg"
+            )
+            with open(tmp_filepath,  "w") as f:
+                f.write(svg)
+            self.logger.write(f"Rendering '{slug}' icon with Inkscape...\n")
+
+            subprocess.run(
+                [
+                    "inkscape",
+                    "-w",
+                    "512",
+                    "-h",
+                    "512",
+                    tmp_filepath,
+                    "-o",
+                    png_icon_filepath,
+                ],
+                stdout=subprocess.DEVNULL,
+            )
 
 def build_parser():
     parser = argparse.ArgumentParser(
@@ -540,9 +595,19 @@ def build_parser():
     )
     parser.add_argument(
         '-r', '--render', action='store_true', dest='render',
-        help='Render the scene. Needs FFmpeg installed. Keep in mind that this'
-             ' could take a lot of time, so be sure that all is in order'
-             ' before pass this option.',
+        help='Render the scene in MP4 and GIF formats. Needs FFmpeg installed.'
+             ' Keep in mind that this could take a lot of time, so be sure'
+             ' that all is in order before pass this option. This is the same'
+             ' as executing the script with the options \'--render-gif\' and'
+             ' \'--render-mp4\'.',
+    )
+    parser.add_argument(
+        '--render-gif', action='store_true', dest='render_gif',
+        help='Render the scene in GIF format.',
+    )
+    parser.add_argument(
+        '--render-mp4', action='store_true', dest='render_mp4',
+        help='Render the scene in MP4 format.',
     )
     parser.add_argument(
         '-D', '--render-dir', dest='render_dir',
@@ -576,6 +641,8 @@ def run(args=[], running_in_background=False):
         'icons': opts.icons,
         "setup_scene": opts.setup_scene,
         "render": opts.render,
+        "render_gif": opts.render_gif,
+        "render_mp4": opts.render_mp4,
     }
 
     SimpleIconsShowcase(**kwargs).run()
