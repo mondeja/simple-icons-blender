@@ -73,7 +73,8 @@ jobs:
           blender_executable="$(< _blender-executable-path.txt tr -d '\n')"
           python_blender_executable="$(pytest-blender --blender-executable $blender_executable)"
           $python_blender_executable -m ensurepip
-          $python_blender_executable -m pip install pytest
+          pytest_version="$(< test-requirements.txt grep pytest== | head -n 1 | cut -d'=' -f3)"
+          $python_blender_executable -m pip install pytest==$pytest_version
           echo "::set-output name=blender-executable::$blender_executable"
       - name: Build library
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
@@ -88,7 +89,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           # Create a version bump commit
-          git add package.json simple_icons_blender.py README.md
+          git add package.json simple_icons_blender.py simple_icons_blender.template README.md
           git commit -m "Version bump"
           # Merge develop into master
           git checkout master
