@@ -55,6 +55,11 @@ loading to see them.
 
 [![Verify Workflow][tests-badge]][tests-link]
 
+There are some problems in Blender SVG import add-on which causes the following
+icons to be rendered incorrectly (Blender SVGs in the top row):
+
+https://user-images.githubusercontent.com/23049315/139682006-a4ba9900-44bd-405f-99fd-a498161aa5ae.mp4
+
 [Simple Icons]: https://simpleicons.org
 [tests-link]: https://github.com/mondeja/simple-icons-blender/actions/workflows/verify.yml
 [tests-badge]: https://img.shields.io/github/workflow/status/mondeja/simple-icons-blender/Verify/develop?label=tests
