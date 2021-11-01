@@ -3,7 +3,7 @@ import re
 
 import pytest
 
-from thelpers import simple_icons_slugs, simple_icons_titles
+from helpers import simple_icons_slugs, simple_icons_titles
 
 
 @pytest.mark.parametrize(

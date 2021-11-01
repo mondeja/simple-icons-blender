@@ -4,3 +4,9 @@ node_modules/
 *.zip
 .pytest_cache/
 htmlcov/
+*.blend1
+*.mp4
+*.gif
+failed-slugs.txt
+scripts/showcase/frames/
+scripts/showcase/inkscape-pngs/
