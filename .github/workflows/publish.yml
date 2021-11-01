@@ -88,7 +88,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           # Create a version bump commit
-          git add package.json simple_icons_blender.py README.md
+          git add package.json simple_icons_blender.py simple_icons_blender.template README.md
           git commit -m "Version bump"
           # Merge develop into master
           git checkout master

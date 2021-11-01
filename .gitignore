@@ -4,3 +4,4 @@ node_modules/
 *.zip
 .pytest_cache/
 htmlcov/
+package-lock.json
