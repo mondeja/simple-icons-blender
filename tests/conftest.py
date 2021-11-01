@@ -3,11 +3,11 @@ import sys
 
 import pytest
 
-TESTS_DIR = os.path.abspath(os.path.dirname(__file__))
-if TESTS_DIR not in sys.path:
-    sys.path.append(TESTS_DIR)
+ROOT_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
 
-from thelpers import simple_icons_slugs as _simple_icons_slugs
+from helpers import simple_icons_slugs as _simple_icons_slugs
 
 @pytest.fixture(scope="session", autouse=True)
 def _register_addons(request, install_addons_from_dir, disable_addons):
