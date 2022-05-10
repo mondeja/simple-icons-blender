@@ -9,7 +9,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           # Ensure we are checked out on the develop branch
           ref: develop
@@ -18,11 +18,11 @@ jobs:
           # Fetch everything so we can checkout master
           fetch-depth: 0
       - name: Use NodeJS v14
-        uses: actions/setup-node@v2.2.0
+        uses: actions/setup-node@v3
         with:
           node-version: 14.x
       - name: Set up Python v3.10
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: '3.10'
       - name: Compare release versions
@@ -49,7 +49,7 @@ jobs:
           sed -i "s/'version': ($v_major, $v_minor, $v_patch),/'version': ($up_v_major, $up_v_minor, $up_v_patch),/" simple_icons_blender.template
       - name: Blender cache setup
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v3
         id: cache-blender
         with:
           path: |
@@ -120,7 +120,7 @@ jobs:
           release_name: Release ${{ steps.get-releases.outputs.si }}
           body: |
             See https://github.com/simple-icons/simple-icons/releases/tag/${{ steps.get-releases.outputs.si }}
-      - uses: shogo82148/actions-upload-release-asset@v1.3.0
+      - uses: shogo82148/actions-upload-release-asset@v1
         name: Upload release asset
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         with:
