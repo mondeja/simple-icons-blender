@@ -55,13 +55,13 @@ jobs:
           path: |
             blender-*
             _blender-executable-path.txt
-          key: ${{ runner.os }}-2.93.5
-      - name: Download Blender 2.93.5
+          key: ${{ runner.os }}-2.93.9
+      - name: Download Blender 2.93.9
         if: (steps.cache-blender.outputs.cache-hit != 'true' && steps.get-releases.outputs.lib != steps.get-releases.outputs.si)
         id: download-blender
         run: |
           python -m pip install --upgrade blender-downloader
-          echo "$(blender-downloader 2.93.5 --extract --remove-compressed \
+          echo "$(blender-downloader 2.93.9 --extract --remove-compressed \
           --quiet --print-blender-executable)" > _blender-executable-path.txt
       - name: Install dependencies
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
