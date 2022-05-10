@@ -17,10 +17,10 @@ jobs:
           persist-credentials: false
           # Fetch everything so we can checkout master
           fetch-depth: 0
-      - name: Use NodeJS v14
+      - name: Use NodeJS v16
         uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 16.x
       - name: Set up Python v3.10
         uses: actions/setup-python@v3
         with:
