@@ -20,7 +20,6 @@ jobs:
         blender-version:
           - '2.93.9'
           - '3.1.2'
-          - '3.2.0'
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python v3.10
