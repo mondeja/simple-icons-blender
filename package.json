@@ -10,5 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "simple-icons": "7.0.0"
-  }
+  },
+  "type": "module"
 }

@@ -42,12 +42,13 @@ class AddSi:
         import_svg_file(self, context, temp_filepath)
         return {'FINISHED'}
 
+A = AddSi
+O = bpy.types.Operator
+
 %(simple_icons_classes)s
 
-si_classes = [
-    globals()[object_name] for object_name in globals().keys()
-    if object_name.startswith("AddSi_")
-]
+g = globals()
+si_classes = [g[object_name] for object_name in g if object_name.startswith("AddSi_")]
 
 # ------------------------------------------------
 
