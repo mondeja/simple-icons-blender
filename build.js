@@ -17,7 +17,7 @@ for (let si in icons) {
   const escapedTitle = icon.title.replace(/'/g, "\\'");
 
   simpleIconsClassesString += `class AddSi_${icon.slug}(AddSi, bpy.types.Operator):
-    bl_idname = 'mesh.si_${icon.slug}'
+    bl_idname = "mesh.si_${icon.slug}"
     bl_label = '${escapedTitle}'
     bl_description = 'Add ${escapedTitle} brand icon'
     si_svg = '${styledSvg}'
