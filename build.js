@@ -26,7 +26,7 @@ for (let si in icons) {
 
 const template = fs.readFileSync("simple_icons_blender.template").toString();
 let newInitContent =
-  `# This file has been created automatically, don't edit it!\n\n` +
+  `# This file has been generated\n\n` +
   template.replace(
     "%(simple_icons_classes)s", simpleIconsClassesString
   );

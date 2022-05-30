@@ -49,8 +49,7 @@ jobs:
           blender_executable="$(< _blender-executable-path.txt tr -d '\n')"
           python_blender_executable="$(pytest-blender --blender-executable $blender_executable)"
           $python_blender_executable -m ensurepip
-          pytest_version="$(< test-requirements.txt grep pytest== | head -n 1 | cut -d'=' -f3)"
-          $python_blender_executable -m pip install pytest==$pytest_version
+          $python_blender_executable -m pip install pytest
           echo "::set-output name=blender-executable::$blender_executable"
       - name: Run tests
         run: pytest -s --blender-executable "${{ steps.install-dependencies.outputs.blender-executable }}" tests
