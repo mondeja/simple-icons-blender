@@ -6,10 +6,10 @@ Requires Blender v2.93.0 or greater.
 
 ## Download
 
-Download the addon using [the next link](https://github.com/mondeja/simple-icons-blender/releases/download/7.18.0/simple_icons_blender.py):
+Download the addon using [the next link](https://github.com/mondeja/simple-icons-blender/releases/download/7.19.0/simple_icons_blender.py):
 
 ```
-https://github.com/mondeja/simple-icons-blender/releases/download/7.18.0/simple_icons_blender.py
+https://github.com/mondeja/simple-icons-blender/releases/download/7.19.0/simple_icons_blender.py
 ```
 
 If you want to install another version of [Simple Icons], change the version
@@ -58,7 +58,7 @@ loading to see them.
 There are some problems in Blender SVG import add-on which causes the following
 icons to be rendered incorrectly (Blender SVGs in the top row):
 
-https://user-images.githubusercontent.com/23049315/1397.18.06-a4ba9900-44bd-405f-99fd-a498161aa5ae.mp4
+https://user-images.githubusercontent.com/23049315/1397.19.06-a4ba9900-44bd-405f-99fd-a498161aa5ae.mp4
 
 [Simple Icons]: https://simpleicons.org
 [tests-link]: https://github.com/mondeja/simple-icons-blender/actions/workflows/verify.yml
