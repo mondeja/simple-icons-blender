@@ -62,4 +62,4 @@ https://user-images.githubusercontent.com/23049315/1398.1.06-a4ba9900-44bd-405f-
 
 [Simple Icons]: https://simpleicons.org
 [tests-link]: https://github.com/mondeja/simple-icons-blender/actions/workflows/verify.yml
-[tests-badge]: https://img.shields.io/github/workflow/actions/status/mondeja/simple-icons-blender/verify.yml?branch=develop&label=tests
+[tests-badge]: https://img.shields.io/github/actions/workflow/status/mondeja/simple-icons-blender/verify.yml?branch=develop&label=tests
