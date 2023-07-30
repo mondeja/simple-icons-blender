@@ -25,7 +25,7 @@ for (let icon of Object.values(icons)) {
     `class AddSi_${icon.slug}(A,O):` +
     `bl_idname="mesh.si_${icon.slug}";` +
     `bl_label='${escapedTitle}';` +
-    `bl_description='Add ${escapedTitle} brand icon';` +
+    `bl_description='Add ${escapedTitle} icon';` +
     `si_svg='${styledSvg}'
 `;
 
