@@ -23,14 +23,14 @@ Under `Edit` -> `Preferences` -> `Add-ons`, press on `Install` and select the
 downloaded file:
 
 <p align="center">
-  <img src="images/install-button.png" "Simple Icons in drawio">
+  <img src="images/install-button.png">
 </p>
 
 Search for `Simple Icons` in the search bar and enable the addon marking the
 top-left checkbox:
 
 <p align="center">
-  <img src="images/enable-addon.png" "Simple Icons in drawio">
+  <img src="images/enable-addon.png">
 </p>
 
 ## Usage
@@ -39,14 +39,14 @@ You can load icons from the `3D Viewport` in object mode clicking on `Add` ->
 `Curve` -> `Simple Icons`:
 
 <p align="center">
-  <img src="images/selector-usage.png" "Simple Icons in drawio">
+  <img src="images/selector-usage.png">
 </p>
 
 All icons are operators, so you can directly load one through the `Menu Search`
 (`Edit` -> `Menu Search`):
 
 <p align="center">
-  <img src="images/menu-search-usage.png" "Simple Icons in drawio">
+  <img src="images/menu-search-usage.png" width="80%">
 </p>
 
 Keep in mind that icons are small, so you'll probably need to zoom in after
