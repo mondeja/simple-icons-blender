@@ -1,10 +1,10 @@
 # simple-icons-blender
 
-[![Verify Workflow][tests-badge]][tests-link]
-
 [Simple Icons] Blender addon. Add 2D SVG brand icons to Blender easily.
 
 Requires Blender v2.93.0 or greater.
+
+[![Verify Workflow][tests-badge]][tests-link]
 
 ## Download
 
