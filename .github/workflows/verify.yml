@@ -20,11 +20,6 @@ jobs:
         blender-version:
           - "2.93.9"
           - "3.1.2"
-          - "3.5.1"
-        exclude:
-          # excludes node 8 on macOS
-          - platform: macos-latest
-            blender-version: "3.5.1"
 
     steps:
       - uses: actions/checkout@v3
