@@ -29,15 +29,16 @@ for (let icon of Object.values(icons)) {
     `si_svg='${styledSvg}'
 `;
 
-  if (lettersForPagination[icon.title[0]] === undefined) {
-    if (ASCII_ALPHABET.includes(icon.title[0])) {
-      lettersForPagination[icon.title[0]] = [icon.title];
+  const firstLetterLower = icon.title[0].toLowerCase();
+  if (lettersForPagination[firstLetterLower] === undefined) {
+    if (ASCII_ALPHABET.includes(firstLetterLower)) {
+      lettersForPagination[firstLetterLower] = [icon.title];
     } else {
       lettersForPagination["symbol"] = [icon.title];
     }
   } else {
-    if (ASCII_ALPHABET.includes(icon.title[0])) {
-      lettersForPagination[icon.title[0]].push(icon.title);
+    if (ASCII_ALPHABET.includes(firstLetterLower)) {
+      lettersForPagination[firstLetterLower].push(icon.title);
     } else {
       lettersForPagination["symbol"].push(icon.title);
     }
