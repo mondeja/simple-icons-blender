@@ -31,7 +31,6 @@ top-left checkbox:
   <img src="images/enable-addon.png" "Simple Icons in drawio">
 </p>
 
-
 ## Usage
 
 You can load icons from the `3D Viewport` in object mode clicking on `Add` ->
