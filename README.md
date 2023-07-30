@@ -14,7 +14,7 @@ Download the addon using [the next link](https://github.com/mondeja/simple-icons
 https://github.com/mondeja/simple-icons-blender/releases/download/9.7.0/simple_icons_blender.py
 ```
 
-If you want to install another version of [Simple Icons], change the version
+If you want to install [another version of Simple Icons][si-releases], change the version
 number in the link.
 
 ## Install
@@ -53,5 +53,6 @@ Keep in mind that icons are small, so you'll probably need to zoom in after
 loading to see them.
 
 [Simple Icons]: https://simpleicons.org
+[si-releases]: https://github.com/simple-icons/simple-icons/releases
 [tests-link]: https://github.com/mondeja/simple-icons-blender/actions/workflows/verify.yml
 [tests-badge]: https://img.shields.io/github/actions/workflow/status/mondeja/simple-icons-blender/verify.yml?branch=develop&label=tests
