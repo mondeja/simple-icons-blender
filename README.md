@@ -1,5 +1,7 @@
 # simple-icons-blender
 
+[![Verify Workflow][tests-badge]][tests-link]
+
 [Simple Icons] Blender addon. Add 2D SVG brand icons to Blender easily.
 
 Requires Blender v2.93.0 or greater.
@@ -49,15 +51,6 @@ All icons are operators, so you can directly load one through the `Menu Search`
 
 Keep in mind that icons are small, so you'll probably need to zoom in after
 loading to see them.
-
-## Status
-
-[![Verify Workflow][tests-badge]][tests-link]
-
-There are some problems in Blender SVG import add-on which causes the following
-icons to be rendered incorrectly (Blender SVGs in the top row):
-
-https://user-images.githubusercontent.com/23049315/1399.7.06-a4ba9900-44bd-405f-99fd-a498161aa5ae.mp4
 
 [Simple Icons]: https://simpleicons.org
 [tests-link]: https://github.com/mondeja/simple-icons-blender/actions/workflows/verify.yml

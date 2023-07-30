@@ -8,7 +8,7 @@ from io_curve_svg.import_svg import load as import_svg_file
 
 bl_info = {
 	'name': 'Simple Icons',
-	'description': 'Blender Simple Icons addon',
+	'description': 'Blender Simple Icons add-on',
 	'author': 'mondeja',
 	'license': 'BSD-3-Clause',
 	'category': 'Add Curve',
@@ -69,6 +69,7 @@ class VIEW3D_MT_simple_icons_add_letter_submenu(bpy.types.Menu):
         for cls in SI_CLASSES:
             if cls.bl_label[0].upper() == self.bl_label:
                 self.layout.operator(cls.bl_idname, text=cls.bl_label)
+LS = VIEW3D_MT_simple_icons_add_letter_submenu
 
 class VIEW3D_MT_simple_icons_add_symbol_submenu(bpy.types.Menu):
     bl_idname = "VIEW3D_MT_simple_icons_add_symbol_submenu"
