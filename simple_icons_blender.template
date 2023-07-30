@@ -1,4 +1,5 @@
 import os
+import string
 import tempfile
 
 import bpy
@@ -7,7 +8,7 @@ from io_curve_svg.import_svg import load as import_svg_file
 
 bl_info = {
 	'name': 'Simple Icons',
-	'description': 'Blender Simple Icons addon',
+	'description': 'Blender Simple Icons add-on',
 	'author': 'mondeja',
 	'license': 'BSD-3-Clause',
 	'category': 'Add Curve',
@@ -47,8 +48,9 @@ O = bpy.types.Operator
 
 %(simple_icons_classes)s
 
-g = globals()
-si_classes = [g[object_name] for object_name in g if object_name.startswith("AddSi_")]
+G = globals()
+SI_CLASSES = [G[object_name] for object_name in G if object_name.startswith("AddSi_")]
+PAGINATION_SUBMENUS = %(letter_submenus_array)s
 
 # ------------------------------------------------
 
@@ -58,9 +60,27 @@ class VIEW3D_MT_simple_icons_add(bpy.types.Menu):
     bl_label = "Simple Icons"
 
     def draw(self, context):
-        for cls in si_classes:
-            self.layout.operator(cls.bl_idname, text=cls.bl_label)
+        for submenu in PAGINATION_SUBMENUS:
+            self.layout.menu("VIEW3D_MT_simple_icons_add_" + submenu + "_submenu")
 
+
+class VIEW3D_MT_simple_icons_add_letter_submenu(bpy.types.Menu):
+    def draw(self, context):
+        for cls in SI_CLASSES:
+            if cls.bl_label[0].upper() == self.bl_label:
+                self.layout.operator(cls.bl_idname, text=cls.bl_label)
+LS = VIEW3D_MT_simple_icons_add_letter_submenu
+
+class VIEW3D_MT_simple_icons_add_symbol_submenu(bpy.types.Menu):
+    bl_idname = "VIEW3D_MT_simple_icons_add_symbol_submenu"
+    bl_label = "#"
+
+    def draw(self, context):
+        for cls in SI_CLASSES:
+            if cls.bl_label[0].upper() not in string.ascii_uppercase:
+                self.layout.operator(cls.bl_idname, text=cls.bl_label)
+
+%(letter_submenu_classes)s
 def menu_func(self, context):
     self.layout.separator()
     self.layout.menu("VIEW3D_MT_simple_icons_add",
@@ -68,16 +88,22 @@ def menu_func(self, context):
 
 
 def register():
-    for cls in si_classes:
+    for cls in SI_CLASSES:
         bpy.utils.register_class(cls)
     bpy.utils.register_class(VIEW3D_MT_simple_icons_add)
+    for submenu in PAGINATION_SUBMENUS:
+        bpy.utils.register_class(G["VIEW3D_MT_simple_icons_add_" + submenu + "_submenu"])
     bpy.types.VIEW3D_MT_curve_add.append(menu_func)
+
 
 def unregister():
     bpy.types.VIEW3D_MT_curve_add.remove(menu_func)
     bpy.utils.unregister_class(VIEW3D_MT_simple_icons_add)
-    for cls in si_classes:
+    for submenu in PAGINATION_SUBMENUS:
+        bpy.utils.unregister_class(G["VIEW3D_MT_simple_icons_add_" + submenu + "_submenu"])
+    for cls in SI_CLASSES:
         bpy.utils.unregister_class(cls);
+
 
 if __name__ == "__main__":
     register()
