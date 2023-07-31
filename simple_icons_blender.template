@@ -1,3 +1,4 @@
+import math
 import os
 import string
 import tempfile
@@ -7,20 +8,20 @@ import bpy
 from io_curve_svg.import_svg import load as import_svg_file
 
 bl_info = {
-	'name': 'Simple Icons',
-	'description': 'Blender Simple Icons add-on',
-	'author': 'mondeja',
-	'license': 'BSD-3-Clause',
-	'category': 'Add Curve',
-	'version': (9, 7, 0),
-	'blender': (2, 93, 0),
-	'support': 'COMMUNITY',
+	"name": "Simple Icons",
+	"description": "Blender Simple Icons add-on",
+	"author": "mondeja",
+	"license": "BSD-3-Clause",
+	"category": "Add Curve",
+	"version": (9, 7, 0),
+	"blender": (2, 93, 0),
+	"support": "COMMUNITY",
 }
 
 class BlenderVersionError(Exception):
 	pass
 
-if bl_info['blender'] > bpy.app.version:
+if bl_info["blender"] > bpy.app.version:
 	raise BlenderVersionError(f"This addon requires Blender >= {bl_info['blender']}")
 
 # -----------------------------------------------
@@ -41,7 +42,7 @@ class AddSi:
                 f.write(self.si_svg)
 
         import_svg_file(self, context, temp_filepath)
-        return {'FINISHED'}
+        return {"FINISHED"}
 
 A = AddSi
 O = bpy.types.Operator
@@ -53,6 +54,7 @@ SI_CLASSES = [G[object_name] for object_name in G if object_name.startswith("Add
 PAGINATION_SUBMENUS = %(letter_submenus_array)s
 
 # ------------------------------------------------
+# Menu and operators
 
 class VIEW3D_MT_simple_icons_add(bpy.types.Menu):
     # Define the "Simple Icons" menu
@@ -91,18 +93,95 @@ def register():
     for cls in SI_CLASSES:
         bpy.utils.register_class(cls)
     bpy.utils.register_class(VIEW3D_MT_simple_icons_add)
+
     for submenu in PAGINATION_SUBMENUS:
         bpy.utils.register_class(G["VIEW3D_MT_simple_icons_add_" + submenu + "_submenu"])
     bpy.types.VIEW3D_MT_curve_add.append(menu_func)
 
+    register_panel()
+
 
 def unregister():
     bpy.types.VIEW3D_MT_curve_add.remove(menu_func)
-    bpy.utils.unregister_class(VIEW3D_MT_simple_icons_add)
+
     for submenu in PAGINATION_SUBMENUS:
         bpy.utils.unregister_class(G["VIEW3D_MT_simple_icons_add_" + submenu + "_submenu"])
+
     for cls in SI_CLASSES:
         bpy.utils.unregister_class(cls);
+    bpy.utils.unregister_class(VIEW3D_MT_simple_icons_add)
+
+    unregister_panel()
+
+
+# ------------------------------------------------
+# Add icon panel
+
+def transform_simple_icon(self, context):
+    obj = context.active_object
+    scale = context.scene.simple_icon_scale * 10
+    rot_x, rot_y, rot_z = context.scene.simple_icon_rotation
+
+    obj.scale = [scale, scale, 1]
+    obj.location = context.scene.simple_icon_location
+    obj.rotation_euler = [
+        math.radians(rot_x),
+        math.radians(rot_y),
+        math.radians(rot_z),
+    ]
+
+class AddSimpleTransformPanel(bpy.types.Panel):
+    """Creates a Panel in the 3D Viewport N Panel"""
+    bl_label = "Simple transform"
+    bl_idname = "OBJECT_PT_add_simple_transform_panel"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_options = set()
+    bl_category = "Item"
+
+    def draw(self, context):
+        layout = self.layout
+        row = layout.row()
+        row.prop(context.scene, "simple_icon_scale")
+        row = layout.row()
+        row.prop(context.scene, "simple_icon_location")
+        row = layout.row()
+        row.prop(context.scene, "simple_icon_rotation")
+
+    @classmethod
+    def poll(cls, context):
+        return (
+            len(context.selected_objects) == 1
+            and context.active_object.type == "CURVE"
+        )
+
+def register_panel():
+    bpy.types.Scene.simple_icon_scale = bpy.props.IntProperty(
+        name="Scale",
+        min=1,
+        default=2,
+        update=transform_simple_icon,
+    )
+    bpy.types.Scene.simple_icon_location = bpy.props.FloatVectorProperty(
+        name="Location",
+        default=(0, 0, 0),
+        update=transform_simple_icon,
+    )
+    bpy.types.Scene.simple_icon_rotation = bpy.props.FloatVectorProperty(
+        name="Rotation",
+        min=-360,
+        max=360,
+        default=(0, 0, 0),
+        update=transform_simple_icon,
+    )
+    bpy.utils.register_class(AddSimpleTransformPanel)
+
+
+def unregister_panel():
+    del bpy.types.Scene.simple_icon_scale
+    del bpy.types.Scene.simple_icon_location
+    del bpy.types.Scene.simple_icon_rotation
+    bpy.utils.unregister_class(AddSimpleTransformPanel)
 
 
 if __name__ == "__main__":
