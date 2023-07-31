@@ -124,4 +124,4 @@ jobs:
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: simple_icons_blender.xml
+          asset_path: simple_icons_blender.py
