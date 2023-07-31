@@ -49,8 +49,20 @@ All icons are operators, so you can directly load one through the `Menu Search`
   <img src="images/menu-search-usage.png" width="80%">
 </p>
 
-Keep in mind that icons are small, so you'll probably need to zoom in after
-loading to see them.
+After loading the icon, you can use the built-in panel "Simple transform"
+to define the size, location and rotation easily.
+
+<p align="center">
+  <img src="images/simple-transform-panel.png">
+</p>
+
+Is placed inside the "Item" tab at the top right of the 3D viewport:
+
+<p align="center">
+  <img src="images/open-item-panel.png">
+</p>
+
+This panel will only be shown when you select a *Curve* object as the active one.
 
 [Simple Icons]: https://simpleicons.org
 [si-releases]: https://github.com/simple-icons/simple-icons/releases

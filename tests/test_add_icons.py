@@ -23,6 +23,9 @@ def test_add_icon_operators(slug, title):
     last_object = last_collection.all_objects[-1]
 
     # check that icon is properly added
+    assert bpy.context.active_object == last_object
+    assert last_object in bpy.context.selected_objects
+
     assert last_object.type == "CURVE"
     assert tuple(last_object.location) == (0.0, 0.0, 0.0)
     assert re.match(r'SVGMat\.\d+', last_object.active_material.name)
