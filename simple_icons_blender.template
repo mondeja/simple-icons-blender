@@ -93,7 +93,6 @@ def register():
     for cls in SI_CLASSES:
         bpy.utils.register_class(cls)
     bpy.utils.register_class(VIEW3D_MT_simple_icons_add)
-
     for submenu in PAGINATION_SUBMENUS:
         bpy.utils.register_class(G["VIEW3D_MT_simple_icons_add_" + submenu + "_submenu"])
     bpy.types.VIEW3D_MT_curve_add.append(menu_func)
@@ -182,6 +181,7 @@ def unregister_panel():
     del bpy.types.Scene.simple_icon_location
     del bpy.types.Scene.simple_icon_rotation
     bpy.utils.unregister_class(AddSimpleTransformPanel)
+
 
 
 if __name__ == "__main__":
