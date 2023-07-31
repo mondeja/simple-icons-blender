@@ -149,10 +149,7 @@ class AddSimpleTransformPanel(bpy.types.Panel):
 
     @classmethod
     def poll(cls, context):
-        return (
-            len(context.selected_objects) == 1
-            and context.active_object.type == "CURVE"
-        )
+        return context.active_object.type == "CURVE"
 
 def register_panel():
     bpy.types.Scene.simple_icon_scale = bpy.props.IntProperty(

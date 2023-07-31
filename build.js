@@ -26,8 +26,7 @@ for (let icon of Object.values(icons)) {
     `bl_idname="mesh.si_${icon.slug}";` +
     `bl_label='${escapedTitle}';` +
     `bl_description='Add ${escapedTitle} icon';` +
-    `si_svg='${styledSvg}'
-`;
+    `si_svg='${styledSvg}'\n`;
 
   const firstLetterLower = icon.title[0].toLowerCase();
   if (lettersForPagination[firstLetterLower] === undefined) {
@@ -50,9 +49,7 @@ for (const letter in lettersForPagination) {
   if (letter !== "symbol") {
     letterSubmenuClasses += `class VIEW3D_MT_simple_icons_add_${letter}_submenu(LS):
     bl_idname = "VIEW3D_MT_simple_icons_add_${letter}_submenu"
-    bl_label = "${letter.toUpperCase()}"
-
-`;
+    bl_label = "${letter.toUpperCase()}"\n\n`;
   }
 }
 
