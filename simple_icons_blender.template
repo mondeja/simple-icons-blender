@@ -42,6 +42,9 @@ class AddSi:
                 f.write(self.si_svg)
 
         import_svg_file(self, context, temp_filepath)
+
+        context.view_layer.objects.active = context.scene.objects[-1]
+        context.scene.objects[-1].select_set(True)
         return {"FINISHED"}
 
 A = AddSi
