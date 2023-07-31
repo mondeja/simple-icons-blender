@@ -50,19 +50,19 @@ All icons are operators, so you can directly load one through the `Menu Search`
 </p>
 
 After loading the icon, you can use the built-in panel "Simple transform"
-to define the size, location and scale easily.
+to define the size, location and rotation easily.
 
 <p align="center">
   <img src="images/simple-transform-panel.png">
 </p>
 
-Is placed in the "Item" tab at the top right of the 3D viewport:
+Is placed inside the "Item" tab at the top right of the 3D viewport:
 
 <p align="center">
   <img src="images/open-item-panel.png">
 </p>
 
-This panel will only be shown when you select a *Curve* object of an icon.
+This panel will only be shown when you select a *Curve* object as the active one.
 
 [Simple Icons]: https://simpleicons.org
 [si-releases]: https://github.com/simple-icons/simple-icons/releases
