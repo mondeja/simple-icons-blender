@@ -154,8 +154,8 @@ class AddSimpleTransformPanel(bpy.types.Panel):
 def register_panel():
     bpy.types.Scene.simple_icon_scale = bpy.props.IntProperty(
         name="Scale",
-        min=1,
-        default=2,
+        min=0,
+        default=1,
         update=transform_simple_icon,
     )
     bpy.types.Scene.simple_icon_location = bpy.props.FloatVectorProperty(
