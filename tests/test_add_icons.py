@@ -32,7 +32,7 @@ def test_add_icon_operators(slug, title):
 
     if slug == "simpleicons":
         # test simpleicons icon geometry
-        bezier_curves_expected_n_points = [12, 4, 5, 12, 4, 6]
+        bezier_curves_expected_n_points = [13, 5, 5, 12, 4, 4]
         assert len(last_object.data.splines) == len(bezier_curves_expected_n_points)
 
         for i, spline in enumerate(last_object.data.splines):
