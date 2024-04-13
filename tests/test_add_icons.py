@@ -37,7 +37,10 @@ def test_add_icon_operators(slug, title):
 
         for i, spline in enumerate(last_object.data.splines):
             assert spline.type == "BEZIER"
-            assert len(spline.bezier_points) == bezier_curves_expected_n_points[i]
+            n_points = len(spline.bezier_points)
+            assert n_points == bezier_curves_expected_n_points[i], (
+                f"Expected {bezier_curves_expected_n_points[i]} points at index {i}, got {n_points}"
+            )
 
     for obj in last_collection.objects:
         bpy.data.objects.remove(obj, do_unlink=True)
