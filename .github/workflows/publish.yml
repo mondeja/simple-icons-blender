@@ -40,13 +40,10 @@ jobs:
           # Update version in README
           sed -i 's/${{ steps.get-releases.outputs.lib }}/${{ steps.get-releases.outputs.si }}/g' README.md
           # Update version in addon metadata
-          v_major="$(echo ${{ steps.get-releases.outputs.lib }} | cut -d'.' -f1)"
-          v_minor="$(echo ${{ steps.get-releases.outputs.lib }} | cut -d'.' -f2)"
-          v_patch="$(echo ${{ steps.get-releases.outputs.lib }} | cut -d'.' -f3)"
-          up_v_major="$(echo ${{ steps.get-releases.outputs.si }} | cut -d'.' -f1)"
-          up_v_minor="$(echo ${{ steps.get-releases.outputs.si }} | cut -d'.' -f2)"
-          up_v_patch="$(echo ${{ steps.get-releases.outputs.si }} | cut -d'.' -f3)"
-          sed -i "s/'version': ($v_major, $v_minor, $v_patch),/'version': ($up_v_major, $up_v_minor, $up_v_patch),/" simple_icons_blender.template
+          v_major="$(echo ${{ steps.get-releases.outputs.si }} | cut -d'.' -f1)"
+          v_minor="$(echo ${{ steps.get-releases.outputs.si }} | cut -d'.' -f2)"
+          v_patch="$(echo ${{ steps.get-releases.outputs.si }} | cut -d'.' -f3)"
+          sed -i -E "s/\"version\"\: [(][0-9]+, [0-9]+, [0-9]+[)],/\"version\"\: ($v_major, $v_minor, $v_patch),/" simple_icons_blender.template
       - name: Blender cache setup
         if: steps.get-releases.outputs.lib != steps.get-releases.outputs.si
         uses: actions/cache@v4
