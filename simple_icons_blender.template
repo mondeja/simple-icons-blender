@@ -13,7 +13,7 @@ bl_info = {
 	"author": "mondeja",
 	"license": "BSD-3-Clause",
 	"category": "Add Curve",
-	"version": (12, 3, 0),
+	"version": (12, 4, 0),
 	"blender": (2, 93, 0),
 	"support": "COMMUNITY",
 }
