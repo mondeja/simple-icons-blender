@@ -1,6 +1,6 @@
 {
   "name": "simple-icons-blender",
-  "version": "13.10.0",
+  "version": "13.11.0",
   "description": "Blender Simple Icons addon",
   "scripts": {
     "build": "node build.js"
@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "simple-icons": "13.10.0"
+    "simple-icons": "13.11.0"
   },
   "type": "module"
 }
