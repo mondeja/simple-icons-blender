@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import * as icons from "simple-icons/icons";
+import * as icons from "simple-icons";
 
 const ASCII_ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
