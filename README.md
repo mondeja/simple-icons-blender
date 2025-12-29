@@ -8,10 +8,10 @@ Requires Blender v2.93.0 or greater.
 
 ## Download
 
-Download the addon using [the next link](https://github.com/mondeja/simple-icons-blender/releases/download/16.2.0/simple_icons_blender.py):
+Download the addon using [the next link](https://github.com/mondeja/simple-icons-blender/releases/download/16.3.0/simple_icons_blender.py):
 
 ```txt
-https://github.com/mondeja/simple-icons-blender/releases/download/16.2.0/simple_icons_blender.py
+https://github.com/mondeja/simple-icons-blender/releases/download/16.3.0/simple_icons_blender.py
 ```
 
 If you want to install [another version of Simple Icons][si-releases], change the version
